@@ -1,0 +1,13 @@
+server:
+  command: -server -bootstrap -ui-dir /ui
+  container_name: consul
+  hostname: ros0
+  image: progrium/consul
+  ports:
+    - "8400:8400/tcp"
+    - "8500:8500/tcp"
+    - "8600:53/tcp"
+    - "8600:53/udp"
+  restart: always
+  volumes:
+    - consul-data:/data:rw

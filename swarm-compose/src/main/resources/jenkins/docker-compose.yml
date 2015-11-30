@@ -1,0 +1,20 @@
+# docker-compose --x-networking --x-network-driver=overlay
+
+master:
+  container_name: jenkins-master
+  environment:
+    - constraint:jenkins==master
+  hostname: jenkins.parchment.io
+  image: dweomer/jenkins-swarm-master
+  ports:
+    - 8080:8080
+    - 50000:50000
+
+slave:
+  command: -executors 3 -labels 'docker' -master http://jenkins-master:8080
+  environment:
+    - constraint:jenkins==slave
+  image: dweomer/jenkins-swarm-slave
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+

@@ -1,0 +1,9 @@
+/**
+ * Activate the Jenkins Job DSL GroovyDSL for IntelliJ IDEA
+ */
+def jobPath = /.*\/src\/(main|test)\/groovy\/.*\.groovy/
+
+def ctx = context(pathRegexp: jobPath)
+contributor(ctx, {
+    delegatesTo(findClass('javaposse.jobdsl.dsl.DslFactory'))
+})

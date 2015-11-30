@@ -1,0 +1,40 @@
+cache:
+  image: redis  
+  container_name: registry-cache
+  volumes:
+    - registry-cache:/data:rw
+
+mirror:
+  container_name: registry-mirror
+  image: registry:2
+  environment:
+    REGISTRY_HTTP_SECRET: dweomer
+    REGISTRY_REDIS_ADDR: redis:6379
+    REGISTRY_PROXY_REMOTEURL: https://registry-1.docker.io
+    REGISTRY_STORAGE: filesystem
+    REGISTRY_STORAGE_CACHE_BLOBDESCRIPTOR: redis
+    REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
+  links:
+    - cache:redis
+  ports:
+    - "4999:5000"
+  restart: always
+  volumes:
+    - registry-local:/var/lib/registry:rw
+
+local:
+  container_name: registry-local
+  image: registry:2
+  environment:
+    REGISTRY_HTTP_SECRET: dweomer
+    REGISTRY_REDIS_ADDR: redis:6379
+    REGISTRY_STORAGE: filesystem
+    REGISTRY_STORAGE_CACHE_BLOBDESCRIPTOR: redis
+    REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
+  links:
+    - cache:redis
+  ports:
+    - "5000:5000"
+  restart: always
+  volumes:
+    - registry-local:/var/lib/registry:rw
