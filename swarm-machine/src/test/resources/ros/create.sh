@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-export MACHINE_STORAGE_PATH=$(readlink -f ${BASH_SOURCE[0]} | sed -e 's|swarm-machine.*|swarm-machine/target/docker-machine|g')
+export MACHINE_STORAGE_PATH=$(echo $(readlink -f ${BASH_SOURCE[0]} 2>/dev/null || realpath -e ${BASH_SOURCE[0]}) | sed -e 's|swarm-machine.*|swarm-machine/target/docker-machine|g')
 
 mkdir -vp ${MACHINE_STORAGE_PATH}
 
@@ -19,6 +19,7 @@ export JENKINS_SWARM_RANCHEROS_ISO="file://${MACHINE_STORAGE_PATH}/cache/rancher
 
 docker-machine --debug create \
     --driver virtualbox \
+    --virtualbox-memory 2048 \
     --virtualbox-boot2docker-url "${JENKINS_SWARM_RANCHEROS_ISO}" \
     --engine-label 'rancher=master' \
     ros0
@@ -80,5 +81,4 @@ docker-machine --debug create \
     --engine-label 'rancher=slave' \
     --engine-label 'jenkins=slave' \
     ros3
-
 

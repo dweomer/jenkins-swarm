@@ -31,11 +31,11 @@ RUN set -x \
         "https://get.docker.com/builds/$(uname -s)/$(uname -m)/docker-${DOCKER_VERSION}" \
  && chmod +x /usr/local/bin/docker \
 ### Install Gosu
- && gpg --keyserver ${GOSU_GPG_KEYSERVER} --recv-keys ${GOSU_GPG_RECV_KEYS} \
+# && gpg --keyserver ${GOSU_GPG_KEYSERVER} --recv-keys ${GOSU_GPG_RECV_KEYS} \
  && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture)" \
- && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture).asc" \
- && gpg --verify /usr/local/bin/gosu.asc \
- && rm /usr/local/bin/gosu.asc \
+# && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture).asc" \
+# && gpg --verify /usr/local/bin/gosu.asc \
+# && rm /usr/local/bin/gosu.asc \
  && chmod +x /usr/local/bin/gosu \
 ### Install Tini
  && curl --create-dirs -sSLo /usr/local/bin/tini \
