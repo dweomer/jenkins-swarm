@@ -8,8 +8,14 @@ Thread.start {
 
     println "--> installing/updating plugins (with dependencies)"
     [
-            'cloudbees-folder',
-            'docker-commons',
+            'embeddable-build-status',
+            'git',
+            'groovy',
+            'groovy-postbuild',
+            'job-dsl',
+            'matrix-auth',
+            'matrix-project',
+            'pegdown-formatter',
     ].each { pluginId ->
         try {
             def plugin = Jenkins.instance.getUpdateCenter().getPlugin(pluginId)

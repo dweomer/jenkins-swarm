@@ -2,19 +2,21 @@
 
 master:
   container_name: jenkins-master
+  cpu_shares: 1
   environment:
-    - constraint:jenkins==master
-  hostname: jenkins.parchment.io
+    - "constraint:jenkins==master"
   image: dweomer/jenkins-swarm-master
   ports:
-    - 8080:8080
-    - 50000:50000
+    - "8080:8080"
+    - "50000:50000"
+  volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
 
 slave:
-  command: -executors 3 -labels 'docker' -master http://jenkins-master:8080
+  command: "-executors 2 -labels 'docker' -master http://jenkins-master:8080"
+  cpu_shares: 1
   environment:
-    - constraint:jenkins==slave
+    - "constraint:jenkins==slave"
   image: dweomer/jenkins-swarm-slave
   volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-
+    - "/var/run/docker.sock:/var/run/docker.sock"
